@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth','admin']],function(){
 
     Route::put('/role-update/{id}','Admin\DashboardController@registerupdate')->name('users.update');
     Route::delete('/user-delete/{id}','Admin\DashboardController@userdelete')->name('users.destroy');
+    Route::get('/abouts','Admin\AboutsController@index');
+    Route::post('/save-abouts','Admin\AboutsController@store')->name('abouts.store');
 
 
 });
