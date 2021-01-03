@@ -11,7 +11,7 @@ class AboutsController extends Controller
     public function index()
     {
         $abouts = Abouts::all();
-        return view('admin.abouts')->with('abouts',$abouts);
+        return view('admin.abouts.abouts')->with('abouts',$abouts);
     }
     public function store(Request $request)
     {
