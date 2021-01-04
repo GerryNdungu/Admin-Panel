@@ -18,6 +18,7 @@
   <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('assets/css/dataTables.min.css')}}">
 </head>
 
 <body class="">
@@ -48,7 +49,7 @@
             <li class="{{ 'abouts' == request()->path() ? 'active': '' }} ">
                 <a href="/abouts">
                     <i class="now-ui-icons design_app"></i>
-                    <p>About Us</p>
+                    <p>Abouts</p>
                 </a>
             </li>
           <li class="active-pro">
@@ -182,7 +183,7 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script><!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
-
+  <script src="{{asset('assets/js/dataTables.min.js')}}"></script>
   @yield('scripts')
 </body>
 

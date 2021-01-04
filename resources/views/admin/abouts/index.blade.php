@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    {{--Edit Modal    --}}
     <div class="modal fade" id="addAbout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -39,6 +40,32 @@
             </div>
         </div>
     </div>
+    {{-- Delete Modal    --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="delete-modalForm" method="post">
+                    {{method_field('delete')}}
+                    {{csrf_field()}}
+                <div class="modal-body">
+                    <input type="hidden" id="deleteAboutsId">
+                    <h5>Are you sure you wish to delete this?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Yes, Delete it</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -58,9 +85,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="datatable">
                             <thead class=" text-primary">
-                            <tr><th>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
                                     Title
                                 </th>
                                 <th>
@@ -81,6 +112,9 @@
                             @foreach($abouts as $about)
                             <tr>
                                 <td>
+                                    {{$about->id}}
+                                </td>
+                                <td>
                                     {{$about->title}}
                                 </td>
                                 <td>
@@ -90,11 +124,10 @@
                                     {{$about->description}}
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-success">EDIT</a>
+                                    <a href="{{route('abouts.show',$about->id)}}" class="btn btn-outline-success">EDIT</a>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-outline-danger">DELETE</a>
-
+                                    <a href="javascript:void(0)" class="btn btn-outline-danger deletebtn" data-toggle="modal" data-target="#deleteModal">Delete</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -109,4 +142,22 @@
 @endsection
 
 @section('scripts')
+    <script>
+        $(document).ready( function () {
+            $('#datatable').DataTable();
+
+            $('#datatable').on('click','.deletebtn', function (){
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function (){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+                $('#deleteAboutsId').val(data[0]);
+                $('#delete-modalForm').attr('action','/aboutsd/'+data[0]);
+                $('#deleteModal').modal('show');
+            });
+        } );
+    </script>
 @endsection

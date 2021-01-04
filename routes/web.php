@@ -32,6 +32,9 @@ Route::group(['middleware' => ['auth','admin']],function(){
     Route::delete('/user-delete/{id}','Admin\DashboardController@userdelete')->name('users.destroy');
     Route::get('/abouts','Admin\AboutsController@index');
     Route::post('/save-abouts','Admin\AboutsController@store')->name('abouts.store');
+    Route::get('/abouts/{id}','Admin\AboutsController@show')->name('abouts.show');
+    Route::put('/abouts/{id}','Admin\AboutsController@update')->name('abouts.update');
+    Route::delete('/aboutsd/{id}','Admin\AboutsController@delete')->name('abouts.destroy');
 
 
 });
