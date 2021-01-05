@@ -43,13 +43,13 @@
             <li class="{{ 'roles-register' == request()->path() ? 'active': '' }} ">
             <a href="/roles-register">
               <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
+              <p>Users</p>
             </a>
           </li>
             <li class="{{ 'abouts' == request()->path() ? 'active': '' }} ">
                 <a href="/abouts">
                     <i class="now-ui-icons design_app"></i>
-                    <p>Abouts</p>
+                    <p>Titles</p>
                 </a>
             </li>
           <li class="active-pro">
@@ -184,6 +184,19 @@
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script><!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
   <script src="{{asset('assets/js/dataTables.min.js')}}"></script>
+  <script src="{{asset('assets/js/sweetalert.js')}}"></script>
+  <script>
+      @if (session('status'))
+          swal({
+              title: '{{ session('status') }} ',
+              // text: "You clicked the button!",
+              icon: '{{session('status_code')}}',
+              button: "Ok",
+          });
+      @endif
+  </script>
+
+
   @yield('scripts')
 </body>
 

@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 @section('title')
-    Admin Panel: About Us
+    Admin Panel: Titles
 @endsection
 
 @section('content')
-    {{--Edit Modal    --}}
+    {{--Add Modal    --}}
     <div class="modal fade" id="addAbout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Titles</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -71,16 +71,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">About Us</h4>
-                    @if (session('status'))
-                        <div class="alert alert-dismissable alert-success" role="alert">
+                    <h4 class="card-title">Titles</h4>
 
-                            {{ session('status') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addAbout" >Add New</button>
                 </div>
                 <div class="card-body">
@@ -111,6 +103,8 @@
                             <tbody>
                             @foreach($abouts as $about)
                             <tr>
+                                <input type="hidden" class="title_delete_val" value="{{$about->id}}">
+
                                 <td>
                                     {{$about->id}}
                                 </td>
@@ -127,7 +121,8 @@
                                     <a href="{{route('abouts.show',$about->id)}}" class="btn btn-outline-success">EDIT</a>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)" class="btn btn-outline-danger deletebtn" data-toggle="modal" data-target="#deleteModal">Delete</a>
+{{--                                    <a href="javascript:void(0)" class="btn btn-outline-danger deletebtn" data-toggle="modal" data-target="#deleteModal">Delete</a>--}}
+                                    <button type="button"class="btn btn-outline-danger titledeleteBtn">Delete</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -159,5 +154,52 @@
                 $('#deleteModal').modal('show');
             });
         } );
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.titledeleteBtn').click(function (e) {
+                e.preventDefault();
+
+                var delete_id = $(this).closest('tr').find('.title_delete_val').val();
+                // alert(delete_id);
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            var data = {
+                                "_token": $('input[name="_token"]').val(),
+                                "id": delete_id,
+                            };
+
+                            $.ajax({
+
+                                type: 'DELETE',
+                                url: '/titlesd/'+delete_id,
+                                data: data,
+                                success: function (response) {
+                                    swal(response.status, {
+                                        icon: "success",
+                                    })
+                                        .then((result) => {
+                                            location.reload();
+                                        });
+                                }
+
+                            });
+                        }
+                    });
+            });
+        });
     </script>
 @endsection

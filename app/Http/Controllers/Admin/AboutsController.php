@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Abouts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class AboutsController extends Controller
 {
@@ -22,6 +23,9 @@ class AboutsController extends Controller
         $abouts->description = $request->input('desc');
 
         $abouts->save();
+
+        Session::flash('status_code','success');
+
         return redirect('/abouts')->with('status',"Data added successfully");
     }
 
@@ -38,8 +42,9 @@ class AboutsController extends Controller
         $about->title = $request->input('title');
         $about->subtitle = $request->input('sub-title');
         $about->description = $request->input('desc');
-        $about->save();
+        $about->update();
 
+        Session::flash('status_code','info');
         return redirect('/abouts')
             ->with('status','Data Updated Successfully');
     }
@@ -50,6 +55,16 @@ class AboutsController extends Controller
 
         $about->delete();
 
+        Session::flash('status_code','error');
+
         return redirect('/abouts')->with('status','Data Deleted successfully');
+    }
+
+    public function deleteTitle($id)
+    {
+        $about = Abouts::findOrfail($id);
+        $about->delete();
+
+        return response()->json(['status'=>'Data Deleted successfully']);
     }
 }

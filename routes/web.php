@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth','admin']],function(){
     Route::get('/abouts/{id}','Admin\AboutsController@show')->name('abouts.show');
     Route::put('/abouts/{id}','Admin\AboutsController@update')->name('abouts.update');
     Route::delete('/aboutsd/{id}','Admin\AboutsController@delete')->name('abouts.destroy');
+    Route::delete('/titlesd/{id}', 'Admin\AboutsController@deleteTitle');
 
 
 });
