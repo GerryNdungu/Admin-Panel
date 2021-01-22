@@ -28,8 +28,8 @@
                                 <div class="form-group">
                                     <label for="email">Give Role</label>
                                     <select name="usertype" class="form-control">
-                                        <option value="admin">Admin</option>
-                                        <option value="vendor">Vendor</option>
+                                        <option value="admin" {{$user->usertype == 'admin' ? 'selected': ''}}>Admin</option>
+                                        <option value="vendor" {{$user->usertype == 'vendor' ? 'selected': ''}}>Vendor</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
